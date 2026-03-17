@@ -1,0 +1,30 @@
+<footer class="site-footer">
+    <div class="footer-widgets">
+        <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+            <?php dynamic_sidebar( 'footer-1' ); ?>
+        <?php endif; ?>
+        <?php if ( is_active_sidebar( 'footer-2' ) ) : ?>
+            <?php dynamic_sidebar( 'footer-2' ); ?>
+        <?php endif; ?>
+        <?php if ( is_active_sidebar( 'footer-3' ) ) : ?>
+            <?php dynamic_sidebar( 'footer-3' ); ?>
+        <?php endif; ?>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All rights reserved.</p>
+        <nav class="footer-nav">
+            <?php
+                wp_nav_menu(array(
+                    'theme_location' => 'footer',
+                    'menu_class'     => 'footer-links',
+                ));
+            ?>
+        </nav>
+    </div>
+
+    <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All rights reserved.</p>
+</footer>
+<?php wp_footer(); ?>
+</body>
+</html>

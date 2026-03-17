@@ -1,0 +1,127 @@
+<div class="category-dropdown">
+    <form method="get" action="">
+        <select name="cat" onchange="if(this.value) window.location.href=this.value;">
+            <option value="">Select Category</option>
+            <?php
+            $categories = get_terms(array(
+                'taxonomy' => 'product_cat',
+                'hide_empty' => true,
+            ));
+
+            foreach ($categories as $category) {
+                // Preserve existing query args
+                $args = $_GET;
+                $args['cat'] = $category->slug;
+
+              
+                $url = add_query_arg($args, get_permalink(wc_get_page_id('shop')));
+
+                $selected = (isset($_GET['cat']) && $_GET['cat'] === $category->slug) ? 'selected' : '';
+
+                echo '<option value="' . esc_url($url) . '" ' . $selected . '>'
+                    . esc_html($category->name) . ' (' . $category->count . ')'
+                    . '</option>';
+            }
+            ?>
+        </select>
+    </form>
+</div>
+
+
+----------------function----------------------
+
+add_action('woocommerce_product_query', 'custom_category_price_filter_query');
+function custom_category_price_filter_query($query) {
+    if (!is_admin() && $query->is_main_query() && (is_shop() || is_product_category() || is_product_taxonomy())) {
+
+        $tax_query = $query->get('tax_query') ? $query->get('tax_query') : array();
+
+        // Category filter
+        if (!empty($_GET['product_cat'])) {
+            $tax_query[] = array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => sanitize_text_field($_GET['product_cat']),
+                'operator' => 'IN',
+            );
+        }
+
+        $query->set('tax_query', $tax_query);
+
+        // Price range filter
+        if (!empty($_GET['price_range'])) {
+            $range = explode('-', $_GET['price_range']);
+            $meta_query = $query->get('meta_query') ? $query->get('meta_query') : array();
+
+            if (count($range) === 2) {
+                $meta_query[] = array(
+                    'key'     => '_price',
+                    'value'   => array((float)$range[0], (float)$range[1]),
+                    'compare' => 'BETWEEN',
+                    'type'    => 'NUMERIC',
+                );
+            } elseif ($_GET['price_range'] === '10001+') {  // adjust if your last range is different
+                $meta_query[] = array(
+                    'key'     => '_price',
+                    'value'   => 10001,
+                    'compare' => '>=',
+                    'type'    => 'NUMERIC',
+                );
+            }
+
+            $query->set('meta_query', $meta_query);
+        }
+    }
+}
+
+---------------------------------------------------------------
+<?php
+$current_cat_slug = get_query_var('product_cat');
+if (empty($current_cat_slug) && !empty($_GET['product_cat'])) {
+    $current_cat_slug = sanitize_text_field($_GET['product_cat']);
+}
+
+$current_price_range = !empty($_GET['price_range']) ? sanitize_text_field($_GET['price_range']) : '';
+
+// Define your price ranges here
+$price_ranges = array(
+    '' => 'Select price',
+    '0-500' => '₹0 – ₹500',
+    '501-1500' => '₹501 – ₹1,500',
+    '1501-3000' => '₹1,501 – ₹3,000',
+    '3001-10000' => '₹3,001 – ₹10,000',
+    '10001+' => '₹10,001 +'
+);
+?>
+
+<form method="get" action="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" id="filter-form"
+      style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 20px 0 30px;">
+
+    <!-- Category Dropdown -->
+    <?php
+    wp_dropdown_categories(array(
+        'show_option_all' => __('Select Category', 'woocommerce'),
+        'taxonomy'        => 'product_cat',
+        'name'            => 'product_cat',
+        'class'           => 'filter-dropdown category-dropdown',
+        'hierarchical'    => true,
+        'hide_empty'      => false,
+        'value_field'     => 'slug',
+        'selected'        => $current_cat_slug, // ensures actual category stays selected
+        'show_count'      => true,
+        'orderby'         => 'name',
+        'echo'            => true,
+    ));
+    ?>
+
+    <!-- Price Range Dropdown -->
+    <select name="price_range" class="filter-dropdown price-dropdown">
+        <?php
+        foreach ($price_ranges as $value => $label) {
+            // Only mark "Select price" as selected if no price range is chosen
+            $selected = selected($current_price_range, $value, false);
+            echo '<option value="' . esc_attr($value) . '" ' . $selected . '>' . esc_html($label) . '</option>';
+        }
+        ?>
+    </select>
+</form>

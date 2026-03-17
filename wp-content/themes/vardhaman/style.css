@@ -1,0 +1,247 @@
+/*
+Template Name:vardhaman
+Template URL:http://localhost/vardhaman.com
+Description:This is the shopping site that is show the diffrent type of product.
+Author:Mohit Rathod
+Author URL:http://localhost/vardhaman.com
+Version:1.0.0
+Text Domin:vardhaman
+*/
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+/*header css*/
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo a {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+}
+
+.nav-links li.current-menu-item a {
+    color: #0073e6;
+    /* Highlight active link */
+    font-weight: bold;
+}
+
+/*footer css*/
+.site-footer {
+    background: #222;
+    color: #fff;
+    padding: 40px 30px;
+    font-size: 14px;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-columns div {
+    flex: 1;
+    margin: 0 15px;
+    min-width: 200px;
+}
+
+.footer-columns h4 {
+    color: #f1f1f1;
+    margin-bottom: 10px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 8px;
+}
+
+.footer-links ul li a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-links ul li a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #444;
+    padding-top: 15px;
+    text-align: center;
+}
+
+/*filter css*/
+.container {
+    display: block;
+    /* stack filter and products vertically */
+}
+
+.filter {
+    display: flex;
+    justify-content: flex-end;
+    /* push filter bar to the right */
+    margin-bottom: 20px;
+}
+
+/* .category-dropdown , .price-dropdown select  {
+        padding: 10px 16px;
+        font-size: 16px;
+        min-width: 280px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
+    margin-left: 10px;  
+
+    }
+.category-filter-wrapper {
+    text-align: center; 
+}
+.filter-dropdown {
+    padding: 10px 16px;
+    font-size: 16px;
+    min-width: 220px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+}
+.filter-dropdown:focus {
+    outline: none;
+    border-color: #0073aa;
+} */
+
+.category-dropdown select,
+.price-dropdown select,
+.brand-dropdown select{
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.clear-btn {
+    margin-left: 10px;
+    display: inline-block;
+    padding: 10px 15px;
+    background: #f44336;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.clear-btn:hover {
+    background: #d32f2f;
+}
+
+/*product css*/
+.product__item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+    padding: 15px;
+}
+
+.product__item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product__item__pic {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.product__item__pic img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.product__item__pic .label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #f44336;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.product__item__text h6 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product__item__text .btn {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 5px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-cart {
+    background: #0073aa;
+    color: #fff;
+}
+
+.btn-cart:hover {
+    background: #005177;
+}
+
+.btn-options {
+    background: #555;
+    color: #fff;
+}
+
+.btn-options:hover {
+    background: #333;
+}
+
+.rating {
+    margin: 10px 0;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+}
